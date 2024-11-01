@@ -2,6 +2,7 @@ class_name PosLockLerp
 extends CameraControllerBase
 
 @export var follow_speed:float = target.BASE_SPEED*0.1
+@export var follow_speed_hyper:float = target.HYPER_SPEED*0.1
 @export var catchup_speed:float = target.BASE_SPEED*0.3
 @export var leash_distance:float = 25.0
 
@@ -27,11 +28,14 @@ func _process(delta: float) -> void:
 	#print(length)
 	#for direction, when working with vectors, do a vector3.normalize and it gives the direction of the vector as a unit vector
 	#|target.velocity| to figure out if target is moving
-	if(target.velocity != zero and length > leash_distance): #use tpos-cpos to find a single number
-		print("outside leash")
+	if(target.velocity != zero and length < leash_distance): #use tpos-cpos to find a single number
+		#print("inside leash")
 		global_position += length*direction*delta*follow_speed
+	elif(target.velocity != zero): #use tpos-cpos to find a single number
+		#print("outside leash")
+		global_position += length*direction*delta*follow_speed_hyper
 	elif(target.velocity == zero):
-		print("still")
+		#print("still")
 		global_position += length*direction*delta*catchup_speed
 	#if(length > leash_distance): #use tpos-cpos to find a single number
 		#print("outside leash")
