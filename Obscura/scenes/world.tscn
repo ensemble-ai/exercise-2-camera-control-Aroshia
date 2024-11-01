@@ -47,7 +47,7 @@ terrain_manager = NodePath("../TerrainManager")
 
 [node name="CameraSelector" type="Node" parent="." node_paths=PackedStringArray("cameras")]
 script = ExtResource("2_qffo5")
-cameras = [NodePath("../PushZone"), NodePath("../LerpSmoothFocus"), NodePath("../PushBoxCamera"), NodePath("../PushBoxCamera3"), NodePath("../PushBoxCamera2"), NodePath("../PosLockCamera"), NodePath("../Autoscroll"), NodePath("../PosLockLerp")]
+cameras = [NodePath("../PushBoxCamera"), NodePath("../PushBoxCamera3"), NodePath("../PushBoxCamera2"), NodePath("../PosLockCamera"), NodePath("../Autoscroll"), NodePath("../PosLockLerp"), NodePath("../LerpSmoothFocus"), NodePath("../PushZone")]
 
 [node name="PushBoxCamera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_ttnp6")]
 transform = Transform3D(1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 30, 0)
