@@ -1,15 +1,11 @@
 class_name PushZone
 extends CameraControllerBase
 
-@export var lead_speed:float = target.BASE_SPEED*1.8
-@export var follow_speed_hyper:float = target.HYPER_SPEED*0.1
-@export var catchup_speed:float = target.BASE_SPEED*0.3
-@export var leash_distance:float = 25.0
-
 @export var speedup_zone_top_left = Vector2(-5,-5)
 @export var speedup_zone_bottom_right = Vector2(5,5)
 @export var pushbox_top_left = Vector2(-15,-15)
 @export var pushbox_bottom_right = Vector2(15,15)
+@export var push_ratio:float = 0.8
 
 
 @export var small_box_width:float = 10.0
@@ -61,24 +57,19 @@ func _process(delta: float) -> void:
 	var diff_between_left_edges_large = (tpos.x - target.WIDTH / 2.0) - (cpos.x + pushbox_top_left.x)
 	#if its between the boxes
 	if(diff_between_left_edges_small < 0 and diff_between_left_edges_large > 0): 
-		print("diff_between_left_edges_small: %d"%diff_between_left_edges_small)
-		print("diff_between_left_edges_large: %d"%diff_between_left_edges_large)
-		print("direction: %s, altdirection: %s"%[str(direction), str(altdirection)])
-		global_position += altdirection*delta*target.BASE_SPEED*1.3
+		global_position += altdirection*delta*target.BASE_SPEED*push_ratio
 	#if it's touching the edge of the big box
 	elif(diff_between_left_edges_large < 0):
-		global_position.x += diff_between_left_edges_large
-	elif(target.velocity == zero):
-		#print("hi")
-		global_position = global_position
+		global_position.x += altdirection*delta*target.BASE_SPEED
+		global_position.z -= altdirection*delta*target.BASE_SPEED*push_ratio
+		
+
 
 	#right
 	var diff_between_right_edges_small = (tpos.x + target.WIDTH / 2.0) - (cpos.x + speedup_zone_bottom_right.x)
 	var diff_between_right_edges_large = (tpos.x + target.WIDTH / 2.0) - (cpos.x + pushbox_bottom_right.x)
-	
 	if diff_between_right_edges_small > 0 and diff_between_right_edges_large < 0:
-		print("b")
-		global_position += direction*delta*target.BASE_SPEED
+		global_position += altdirection*delta*target.BASE_SPEED*push_ratio
 	elif(diff_between_right_edges_large > 0):
 		global_position.x += diff_between_right_edges_large
 
@@ -87,8 +78,7 @@ func _process(delta: float) -> void:
 	var diff_between_top_edges_large = (tpos.z - target.HEIGHT / 2.0) - (cpos.z + pushbox_top_left.y)
 	
 	if diff_between_top_edges_small < 0 and diff_between_top_edges_large > 0:
-		print("c")
-		global_position += direction*delta*target.BASE_SPEED
+		global_position += altdirection*delta*target.BASE_SPEED*push_ratio
 	elif(diff_between_top_edges_large < 0):
 		global_position.z += diff_between_top_edges_large
 	
@@ -97,8 +87,7 @@ func _process(delta: float) -> void:
 	var diff_between_bottom_edges_large = (tpos.z + target.HEIGHT / 2.0) - (cpos.z + pushbox_bottom_right.y)
 	
 	if diff_between_bottom_edges_small > 0 and diff_between_bottom_edges_large < 0:
-		print("d")
-		global_position += direction*delta*target.BASE_SPEED
+		global_position += altdirection*delta*target.BASE_SPEED*push_ratio
 	elif(diff_between_bottom_edges_large > 0):
 		global_position.z += diff_between_bottom_edges_large
 	#
