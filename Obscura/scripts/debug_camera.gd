@@ -18,4 +18,4 @@ func _process(_delta):
 		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
 		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 		).limit_length(1.0))
-	
+	#text += str(((get_parent() as Node3D).cpos.x + (get_parent() as Node3D).speedup_zone_top_left.x))

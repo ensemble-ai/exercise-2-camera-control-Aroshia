@@ -14,8 +14,13 @@ var timer_start = false
 @export var leash_distance:float = 25.0
 
 var zero = Vector3(0, 0, 0)
+var timer := Timer.new()
 
 func _ready() -> void:
+	add_child(timer)
+	#timer.wait_time
+	timer.one_shot = true
+	timer.start(0.5)
 	super()
 	position = target.position
 	
@@ -38,13 +43,9 @@ func _process(delta: float) -> void:
 	
 	if draw_camera_logic:
 		draw_logic()
-		
-	if timer_start:
-		return
 	
 	var tpos = target.global_position
 	var cpos = global_position
-	
 	
 	tpos.y = 0
 	cpos.y = 0
@@ -55,26 +56,18 @@ func _process(delta: float) -> void:
 	var direction = get_input_direction()
 	var length = (tpos-cpos).length()
 
-	#for direction, when working with vectors, do a vector3.normalize and it gives the direction of the vector as a unit vector
-	#|target.velocity| to figure out if target is moving
 	if(!target.velocity.is_zero_approx() and length < leash_distance): 
-		print("cpos: %s"%str(cpos))
-		print("tpos: %s"%str(tpos))
-		print("tpos - cpos: %s"%str(tpos-cpos))
-		print("altdirection: %s"%str(altdirection))
+		timer_start = false
 		global_position += direction*delta*lead_speed
-	#elif(!target.velocity.is_zero_approx() and length > leash_distance and direction.is_equal_approx(altdirection)):
-		#print("input direction: %s" %str(direction))
-		#print("tpos-cpos direction: %s" %str(altdirection))
-		#global_position += direction*delta*target.BASE_SPEED
-	elif(!target.velocity.is_zero_approx() and !direction.is_equal_approx(altdirection)):
-		print("wrong side")
+	elif(!target.velocity.is_zero_approx() and !direction.is_equal_approx(altdirection)): #if camera is on the wrong side
+		timer_start = false
 		global_position += (direction+altdirection)*delta*target.BASE_SPEED
-	elif(target.velocity.is_zero_approx() and !cpos.is_equal_approx(tpos)):
-		#print("global_position")
-		#await get_tree().create_timer(1.0).timeout
+	elif(target.velocity.is_zero_approx() and length > 0.5 and timer.is_stopped()):
+		print(timer.is_stopped())
+		print(timer.time_left)
+		#timer.start(1.0)
+		print(timer.time_left)
 		global_position += altdirection*delta*catchup_speed
-		print("global_position: %s"%str(global_position))
 	else:
 		global_position = tpos
 	#boundary checks
