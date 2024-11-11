@@ -60,19 +60,19 @@ ___
 
 ___
 #### Justification ##### 
-The implementation of position lock works exactly as intended, where the code is concise and intuitive as to what it does. The camera and player are always at the same position.
+The implementation of position lock works exactly as intended, where the code is concise and intuitive as to what it does. The camera and player are always at the same position. The code is an augmented version of the code that was implemented in the example push box code, where the changed conditionals are easy to understand.
 ___
 ### Stage 2 ###
 
-- [ ] Perfect
+- [x] Perfect
 - [ ] Great
 - [ ] Good
-- [x] Satisfactory
+- [ ] Satisfactory
 - [ ] Unsatisfactory
 
 ___
 #### Justification ##### 
-The box is drawn correctly, and the auto scroll works as intended, moving to the right. However, the push box functionality doesn't work, where the player is just trapped inside of the box and cannot manipulate the direction of the camera.
+The box is drawn correctly, and the auto scroll works as intended, moving to the right. As good practice, both the target and the camera move at the same augmented autoscrolling speed, meaning the user won't constantly have to move the target's camera around as it lags behind the autoscrolling camera. This is a good design choice. I interpreted the prompt of the 2nd stage incorrectly, where I thought the target was supposed to be able to move in a similar way as push box and move in the direction the target was moving at the edges, leading me to change what I originally wrote.
 
 ___
 ### Stage 3 ###
@@ -85,7 +85,7 @@ ___
 
 ___
 #### Justification ##### 
-The implementation for the lerp with position lock works as intended, where the camera follows the player at a slower speed and the target is unable to break the leash. The player is always within the max distance of the camera. There are a few visual issues with how the target jumps around when going at hyper speed, however.
+The implementation for the lerp with position lock works as intended, where the camera follows the player at a slower speed and the target is unable to break the leash. The target is always within the max distance of the camera. There are a few visual issues with how the target jumps around when going at hyper speed, however. The author adds an extra export variable to account for the hyperspeed movement, where this is used for when the target is moving and is also outside the leash distance. A suggestion, however, might be to use the target's velocity during that frame itself rather than ratios of the base and hyperspeed. This may reduce redundancy regarding two types of follow speeds.
 
 ___
 ### Stage 4 ###
@@ -98,7 +98,7 @@ ___
 
 ___
 #### Justification ##### 
-When switching cameras to the lerp with smoothing, where the camera leads the player, the camera must move to the target's location again without the location being immediately set when switching to the camera. When moving normally, the camera leads the player as intended, where the player hits the max distance if the camera moves too far away. However, when entering hyper speed, the camera does not follow the player as intended, and the camera starts teleporting to various locations rather than smoothly leading the target. Additionally, the catchup_delay_duration isn't implemented correctly, as the camera immediately moves back to the position of the target after the release of input.
+When switching cameras to the lerp with smoothing, where the camera leads the player, the camera must move to the target's location again without the location being immediately set when switching to the camera. When moving normally, the camera leads the player as intended, where the player hits the max distance if the camera moves too far away. However, when entering hyper speed, the camera does not follow the player as intended, and the camera starts teleporting to various locations rather than smoothly leading the target. Additionally, the catchup_delay_duration isn't implemented correctly, as the camera immediately moves back to the position of the target after the release of input. It should be acknowledged that the author did attempt to implement the catchup_delay_duration functionality, taking into account for it.
 
 ___
 ### Stage 5 ###
@@ -139,6 +139,8 @@ There are some portions of code that infringe on readability practices, such as 
 
 By default, the draw mode is left off when changing between cameras, where the user is required to press 'F' each time after switching the camera to display it.
 
+Although there are a good amount of comments that exist to aid in readability and understanding the code, there are comments that are unrelated to the current implementation of the code that may make it more confusing to understa nd. https://github.com/ensemble-ai/exercise-2-camera-control-Aroshia/blob/f76799fdcb77b8c231bc3690c4d291808d323b8a/Obscura/scripts/camera_controllers/lerp_position_lock.gd#L40-L62
+
 #### Best Practices Exemplars ####
 
 All export variables that were required in each stage were declared, following guidelines. 
@@ -148,3 +150,4 @@ One practice that seemed quite helpful was the inclusion of various forms of deb
 Comments are used to summarize statements that might seem hard to follow, streamlining the readability of the code. https://github.com/ensemble-ai/exercise-2-camera-control-Aroshia/blob/cb3010d790b712f12b2c8362de5becbfd3aea9ee/Obscura/scripts/camera_controllers/lerp_smoothing_target_focus.gd#L62
 
 
+There are a good amount of commits in Github from the user, signifying good use of version control to reduce chances of losing any changes to code.
