@@ -137,6 +137,8 @@ Most of the exported variables are specified with a return type, reducing the ch
 
 There are some portions of code that infringe on readability practices, such as the lack of spacing in some assignments that use multiple variables. https://github.com/ensemble-ai/exercise-2-camera-control-Aroshia/blob/cb3010d790b712f12b2c8362de5becbfd3aea9ee/Obscura/scripts/camera_controllers/lerp_smoothing_target_focus.gd#L64
 
+By default, the draw mode is left off when changing between cameras, where the user is required to press 'F' each time after switching the camera to display it.
+
 #### Best Practices Exemplars ####
 
 All export variables that were required in each stage were declared, following guidelines. 
